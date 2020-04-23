@@ -24,6 +24,21 @@ const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
 
+	const deleteButton = newTask.querySelector('.task__btn_delete');
+	const copyButton = newTask.querySelector('.task__btn_copy');
+	const editButton = newTask.querySelector('.task__btn_edit');
+
+	deleteButton.addEventListener('click', function (evt) {
+		const task = evt.currentTarget.closest('.task');
+		list.removeChild(task);
+	});
+
+	editButton.addEventListener('click', function (evt) {
+		const text = prompt('Введите новый текст');
+		const task = evt.currentTarget.closest('.task');
+		task.querySelector('.task__name').textContent = text;
+	});
+
 	list.appendChild(newTask);
 };
 
@@ -34,8 +49,11 @@ tasks.forEach(function(task) {
 
 const form = document.querySelector('.todo__form');
 const input = document.querySelector('.todo__input');
-form.addEventListener('submit', function (evt) {
+
+const onFormSubmitHandler = function (evt) {
 	evt.preventDefault();
 	renderSingleTask(input.value);
 	input.value = '';
-});
+};
+
+form.addEventListener('submit', onFormSubmitHandler);
