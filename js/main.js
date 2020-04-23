@@ -25,9 +25,17 @@ const renderSingleTask = function(name) {
 	newTask.querySelector('.task__name').textContent = name;
 
 	list.appendChild(newTask);
-}
+};
 
 // пройтись по массиву данных циклом
 tasks.forEach(function(task) {
 	renderSingleTask(task.name);
+});
+
+const form = document.querySelector('.todo__form');
+const input = document.querySelector('.todo__input');
+form.addEventListener('submit', function (evt) {
+	evt.preventDefault();
+	renderSingleTask(input.value);
+	input.value = '';
 });
