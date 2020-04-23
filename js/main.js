@@ -39,6 +39,12 @@ const renderSingleTask = function(name) {
 		task.querySelector('.task__name').textContent = text;
 	});
 
+	copyButton.addEventListener('click', function (evt) {
+		const task = evt.currentTarget.closest('.task');
+		const clonedTask = task.cloneNode(true);
+		task.after(clonedTask);
+	});
+
 	list.appendChild(newTask);
 };
 
