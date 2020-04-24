@@ -50,10 +50,7 @@ const editCard = function (evt) {
 	const task = evt.currentTarget.closest('.task');
 	const taskInfo = task.querySelector('.task__info');
 	let taskName = task.querySelector('.task__name');
-	const saveButton = document.querySelectorAll('.todo__button');
-	const editButtons = document.querySelectorAll('.task__btn_edit');
-	const copyButtons = document.querySelectorAll('.task__btn_copy');
-	const deleteButtons = document.querySelectorAll('.task__btn_delete');
+	const buttons = document.querySelectorAll('button');
 
 	const markup = `
 	<form name="edit">
@@ -69,19 +66,14 @@ const editCard = function (evt) {
 	taskInfo.removeChild(taskName);
 	input.focus();
 	input.selectionStart = input.value.length;
-	addDisable(saveButton);
-	addDisable(editButtons);
-	addDisable(copyButtons);
-	addDisable(deleteButtons);
+	addDisable(buttons);
+
 	input.addEventListener('keydown', function (evt) {
 		if (evt.keyCode === 27) {
 			input.blur();
 			taskInfo.removeChild(form);
 			taskInfo.appendChild(taskName);
-			removeDisable(editButtons);
-			removeDisable(copyButtons);
-			removeDisable(deleteButtons);
-			removeDisable(saveButton);
+			removeDisable(buttons);
 		};
 	});
 
@@ -90,10 +82,7 @@ const editCard = function (evt) {
 		taskName.textContent = input.value;
 		taskInfo.removeChild(form);
 		taskInfo.appendChild(taskName);
-		removeDisable(editButtons);
-		removeDisable(copyButtons);
-		removeDisable(deleteButtons);
-		removeDisable(saveButton);
+		removeDisable(buttons);
 	});
 }
 
