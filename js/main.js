@@ -1,6 +1,6 @@
 const list = document.querySelector('.todo__list');
 
-const createTaskElement = function() {
+const createTaskElement = function () {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
@@ -20,36 +20,88 @@ const createTaskElement = function() {
 	return element.firstElementChild;
 };
 
-const renderSingleTask = function(name) {
+const putListeners = function (task) {
+	const deleteButton = task.querySelector('.task__btn_delete');
+	const copyButton = task.querySelector('.task__btn_copy');
+	const editButton = task.querySelector('.task__btn_edit');
+	deleteButton.addEventListener('click', deleteCard);
+	editButton.addEventListener('click', editCard);
+	copyButton.addEventListener('click', copyCard);
+};
+
+const deleteCard = function (evt) {
+	const task = evt.currentTarget.closest('.task');
+	list.removeChild(task);
+};
+
+const addDisable = function (list) {
+	list.forEach(function (elem) {
+		elem.setAttribute('disabled', 'true');
+	})
+}
+
+const removeDisable = function (list) {
+	list.forEach(function (elem) {
+		elem.removeAttribute('disabled');
+	})
+}
+
+const editCard = function (evt) {
+	const task = evt.currentTarget.closest('.task');
+	const taskInfo = task.querySelector('.task__info');
+	let taskName = task.querySelector('.task__name');
+	const buttons = document.querySelectorAll('button');
+
+	const markup = `
+	<form name="edit">
+		<input required>
+		<button type="submit">Ок</button>
+	</form>
+	`;
+	taskInfo.insertAdjacentHTML('afterbegin', markup);
+
+	const form = document.forms.edit;
+	const input = form.elements[0];
+	input.setAttribute('value', taskName.textContent);
+	taskInfo.removeChild(taskName);
+	input.focus();
+	input.selectionStart = input.value.length;
+	addDisable(buttons);
+
+	input.addEventListener('keydown', function (evt) {
+		if (evt.keyCode === 27) {
+			input.blur();
+			taskInfo.removeChild(form);
+			taskInfo.appendChild(taskName);
+			removeDisable(buttons);
+		};
+	});
+
+	form.addEventListener('submit', function (evt) {
+		evt.preventDefault();
+		taskName.textContent = input.value;
+		taskInfo.removeChild(form);
+		taskInfo.appendChild(taskName);
+		removeDisable(buttons);
+	});
+}
+
+const copyCard = function (evt) {
+	const task = evt.currentTarget.closest('.task');
+	const clonedTask = task.cloneNode(true);
+	putListeners(clonedTask);
+	task.after(clonedTask);
+};
+
+const renderSingleTask = function (name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
-
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
+	putListeners(newTask);
 	list.appendChild(newTask);
 };
 
 // пройтись по массиву данных циклом
-tasks.forEach(function(task) {
+tasks.forEach(function (task) {
 	renderSingleTask(task.name);
 });
 
