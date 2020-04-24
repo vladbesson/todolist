@@ -7,7 +7,7 @@ function createTaskElement() {
 				<p class="task__name"></p>
 				<form class="edit-form" name="edit">
 					<input type="text" name="task" class="input edit-form__input" required placeholder="Изменить задачу">
-					<button type="submit" class="button edit-form__button">
+					<button type="submit" class="button edit-form__button">Применить</button>
 				</form>
       </div>
       <div class="task__controls">
@@ -55,10 +55,24 @@ function removeTask(evt) {
 function editTask(evt) {
 	if (event.target.classList.contains('task__img_edit')) {
 		const task = evt.target.closest('.task');
+
 		task.querySelector('.edit-form').classList.add('edit-form_active');
 		task.querySelector('.task__name').classList.add('task__name_inactive');
-		const editForm = document.forms.edit;
+
+		document.addEventListener('keydown', escapeHandler);
+
+		const editForm = document.querySelector('.edit-form_active');
+
 		editForm.addEventListener('submit', editText);
+	}
+}
+
+function escapeHandler(evt) {
+	if (evt.key === 'Escape') {
+		const task = evt.target.closest('.task');
+
+		task.querySelector('.edit-form').classList.remove('edit-form_active');
+		task.querySelector('.task__name').classList.remove('task__name_inactive');
 	}
 }
 
@@ -66,12 +80,16 @@ function editText(evt) {
 	evt.preventDefault();
 
 	const task = evt.target.closest('.task');
-	const newTask = document.forms.edit.elements.task;
+	const newTask = task.querySelector('.edit-form__input');
 
 	task.querySelector('.task__name').textContent = newTask.value;
 
 	task.querySelector('.edit-form').classList.remove('edit-form_active');
 	task.querySelector('.task__name').classList.remove('task__name_inactive');
+
+	newTask.value = '';
+
+	evt.target.removeEventListener('submit', editText)
 }
 
 function copyTask(evt) {

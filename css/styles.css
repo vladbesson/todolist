@@ -124,12 +124,12 @@ body {
 /* .edit-form */
 .edit-form {
 	display: none;
+	flex-direction: row;
+	align-items: center;
 }
 
 .edit-form_active {
 	display: flex;
-	flex-direction: row;
-	align-items: center;
 }
 
 .edit-form__input {
@@ -138,5 +138,5 @@ body {
 }
 
 .edit-form__button {
-	padding: 10px;
+	padding: 0;
 }
