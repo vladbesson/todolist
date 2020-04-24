@@ -1,6 +1,23 @@
-const list = document.querySelector('.todo__list');
+const list = document.querySelector('.todo__list'),
+	form = document.querySelector('.todo__form'),
+	input = document.querySelector('.todo__input');
 
-const createTaskElement = function() {
+const onFormSubmitHandler = function (event) {
+	event.preventDefault();
+	renderSingleTask(input.value);
+	input.value = '';
+};
+
+const itemEditorHandler = function (event) {
+	event.preventDefault();
+	taskName.textContent = input.value;
+	input.setAttribute('placeholder', 'Разобраться в замыканиях');
+	input.value = '';
+	form.addEventListener('submit', onFormSubmitHandler);
+	form.removeEventListener('submit', itemEditorHandler);
+};
+
+const createTaskElement = function () {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
@@ -13,53 +30,57 @@ const createTaskElement = function() {
       </div>
     </li>
 	`;
-
 	const element = document.createElement('div');
 	element.insertAdjacentHTML('afterbegin', markup);
-
+	console.log(element);
 	return element.firstElementChild;
 };
 
-const renderSingleTask = function(name) {
+const renderSingleTask = function (name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
-
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
 	list.appendChild(newTask);
 };
 
 // пройтись по массиву данных циклом
-tasks.forEach(function(task) {
+tasks.forEach(function (task) {
 	renderSingleTask(task.name);
 });
 
-const form = document.querySelector('.todo__form');
-const input = document.querySelector('.todo__input');
+function copyItem(evt) {
+	const task = evt.target.closest('.task');
+	const clonedTask = task.cloneNode(true);
+	task.after(clonedTask);
+}
 
-const onFormSubmitHandler = function (evt) {
-	evt.preventDefault();
-	renderSingleTask(input.value);
+function deleteItem(evt) {
+	const task = evt.target.closest('.task');
+	list.removeChild(task);
+}
+
+function editItem(evt) {
+	form.removeEventListener('submit', onFormSubmitHandler);
+	const task = evt.target.closest('.task');
+	taskName = task.querySelector('.task__name');
+	taskName.textContent = '';
 	input.value = '';
-};
+	input.focus();
+	input.setAttribute('placeholder', 'Отредактируйте текст');
+	form.addEventListener('submit', itemEditorHandler);
+}
 
+function setItemFunctions(evt) {
+	const attribute = evt.target.getAttribute('alt');
+	if (attribute == 'Копировать') {
+		copyItem(evt);
+	}
+	if (attribute == 'Удалить') {
+		deleteItem(evt);
+	}
+	if (attribute == 'Редактировать') {
+		editItem(evt);
+	}
+}
+
+list.addEventListener('click', setItemFunctions);
 form.addEventListener('submit', onFormSubmitHandler);
