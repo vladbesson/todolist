@@ -2,11 +2,11 @@ const list = document.querySelector('.todo__list');
 const form = document.querySelector('.todo__form');
 const input = document.querySelector('.todo__input');
 
-const createTaskElement = function () {
+const createTaskElement = (name) => {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
-        <p class="task__name">${}</p>
+        <p class="task__name">${name}</p>
       </div>
       <div class="task__controls">
         <button class="task__btn task__btn_edit" type="button" aria-label="Редактировать"></button>
@@ -16,16 +16,11 @@ const createTaskElement = function () {
     </li>
 	`;
 
-	const element = document.createElement('div');
-	element.insertAdjacentHTML('afterbegin', markup);
-
-	return element.firstElementChild;
+	return markup;
 };
 
 const renderSingleTask = (name) => {
-	const newTask = createTaskElement();
-	newTask.querySelector('.task__name').textContent = name;
-	list.appendChild(newTask);
+	list.insertAdjacentHTML('afterbegin', createTaskElement(name));
 };
 
 const onFormSubmitHandler = (e) => {
@@ -35,28 +30,31 @@ const onFormSubmitHandler = (e) => {
 };
 
 const controlSingleTask = (e) => {
-	let target = e.target;
+	const target = e.target;
+	const task = target.closest('.task');
 
 	if (target.classList.contains('task__btn_delete')) {
-		target.closest('.task').remove();
+		task.remove();
 	}
 
 	if (target.classList.contains('task__btn_copy')) {
-		renderSingleTask(target.closest('.task').textContent);
+		renderSingleTask(task.textContent);
 	}
 
 	if (target.classList.contains('task__btn_edit')) {
-		const taskName = target.closest('.task').querySelector('.task__name');
+		const taskName = task.querySelector('.task__name');
 		taskName.setAttribute('contenteditable', 'true');
 		taskName.classList.add('task__name_editable');
 
 		taskName.addEventListener('keydown', function (e) {
 			if (e.keyCode === 13) {
 				e.preventDefault();
-				if (taskName.innerHTML !== '') {
-					taskName.removeAttribute('contenteditable');
-					taskName.classList.remove('task__name_editable');
-				}
+
+				if (this.innerHTML === '') return;
+				
+				this.style.border = "2px solid transparent";
+				this.removeAttribute('contenteditable');
+				this.classList.remove('task__name_editable');
 			}
 		});
 	}
@@ -67,7 +65,5 @@ form.addEventListener('submit', onFormSubmitHandler);
 list.addEventListener('click', controlSingleTask);
 
 (function showInitialTasks() {
-	tasks.forEach(function (task) {
-		renderSingleTask(task.name);
-	});
+	tasks.forEach(task => renderSingleTask(task.name));
 })();
