@@ -92,6 +92,10 @@ body {
 	line-height: 29px;
 }
 
+.task__name_inactive {
+	display: none;
+}
+
 
 /* .input */
 .input {
@@ -115,4 +119,24 @@ body {
 	border-radius: 5px;
 	padding: 21px;
 	border: none;
+}
+
+/* .edit-form */
+.edit-form {
+	display: none;
+}
+
+.edit-form_active {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.edit-form__input {
+	padding: 0 10px;
+	margin-right: 10px;
+}
+
+.edit-form__button {
+	padding: 10px;
 }
