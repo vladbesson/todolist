@@ -1,6 +1,6 @@
 const list = document.querySelector('.todo__list');
 
-const createTaskElement = function() {
+const createTaskElement = function () {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
@@ -20,7 +20,7 @@ const createTaskElement = function() {
 	return element.firstElementChild;
 };
 
-const putListeners = function(task) {
+const putListeners = function (task) {
 	const deleteButton = task.querySelector('.task__btn_delete');
 	const copyButton = task.querySelector('.task__btn_copy');
 	const editButton = task.querySelector('.task__btn_edit');
@@ -29,15 +29,29 @@ const putListeners = function(task) {
 	copyButton.addEventListener('click', copyCard);
 };
 
-const deleteCard = function(evt) {
+const deleteCard = function (evt) {
 	const task = evt.currentTarget.closest('.task');
 	list.removeChild(task);
 };
 
-const editCard = function(evt) {
+const addDisable = function(list) {
+	list.forEach(function(elem) {
+		elem.setAttribute('disabled', 'true');
+	})
+}
+
+const removeDisable = function(list) {
+	list.forEach(function(elem) {
+		elem.removeAttribute('disabled');
+	})	
+}
+
+const editCard = function (evt) {
 	const task = evt.currentTarget.closest('.task');
 	const taskInfo = task.querySelector('.task__info');
 	let taskName = task.querySelector('.task__name');
+	const editButtons = document.querySelectorAll('.task__btn_edit');
+	console.log(editButtons);
 
 	const markup = `
 	<form name="edit">
@@ -53,31 +67,34 @@ const editCard = function(evt) {
 	taskInfo.removeChild(taskName);
 	input.focus();
 	input.selectionStart = input.value.length;
+	addDisable(editButtons);
 
-	input.addEventListener('keydown', function(evt) {
+	input.addEventListener('keydown', function (evt) {
 		if (evt.keyCode === 27) {
 			input.blur();
 			taskInfo.removeChild(form);
 			taskInfo.appendChild(taskName);
+			removeDisable(editButtons);	
 		};
 	});
 
-	form.addEventListener('submit', function(evt) {
+	form.addEventListener('submit', function (evt) {
 		evt.preventDefault();
 		taskName.textContent = input.value;
 		taskInfo.removeChild(form);
 		taskInfo.appendChild(taskName);
+		removeDisable(editButtons);	
 	});
 }
 
-const copyCard = function(evt) {
+const copyCard = function (evt) {
 	const task = evt.currentTarget.closest('.task');
 	const clonedTask = task.cloneNode(true);
 	putListeners(clonedTask);
 	task.after(clonedTask);
 };
 
-const renderSingleTask = function(name) {
+const renderSingleTask = function (name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
 	putListeners(newTask);
@@ -85,14 +102,14 @@ const renderSingleTask = function(name) {
 };
 
 // пройтись по массиву данных циклом
-tasks.forEach(function(task) {
+tasks.forEach(function (task) {
 	renderSingleTask(task.name);
 });
 
 const form = document.querySelector('.todo__form');
 const input = document.querySelector('.todo__input');
 
-const onFormSubmitHandler = function(evt) {
+const onFormSubmitHandler = function (evt) {
 	evt.preventDefault();
 	renderSingleTask(input.value);
 	input.value = '';
