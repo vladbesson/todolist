@@ -2,11 +2,11 @@ const list = document.querySelector('.todo__list');
 const form = document.querySelector('.todo__form');
 const input = document.querySelector('.todo__input');
 
-const createTaskElement = function (name) {
+const createTaskElement = function () {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
-        <p class="task__name">${name}</p>
+        <p class="task__name">${}</p>
       </div>
       <div class="task__controls">
         <button class="task__btn task__btn_edit" type="button" aria-label="Редактировать"></button>
