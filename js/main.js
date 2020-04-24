@@ -34,16 +34,16 @@ const deleteCard = function (evt) {
 	list.removeChild(task);
 };
 
-const addDisable = function(list) {
-	list.forEach(function(elem) {
+const addDisable = function (list) {
+	list.forEach(function (elem) {
 		elem.setAttribute('disabled', 'true');
 	})
 }
 
-const removeDisable = function(list) {
-	list.forEach(function(elem) {
+const removeDisable = function (list) {
+	list.forEach(function (elem) {
 		elem.removeAttribute('disabled');
-	})	
+	})
 }
 
 const editCard = function (evt) {
@@ -51,6 +51,10 @@ const editCard = function (evt) {
 	const taskInfo = task.querySelector('.task__info');
 	let taskName = task.querySelector('.task__name');
 	const editButtons = document.querySelectorAll('.task__btn_edit');
+	const copyButtons = document.querySelectorAll('.task__btn_copy');
+	const deleteButtons = document.querySelectorAll('.task__btn_delete');
+
+
 	console.log(editButtons);
 
 	const markup = `
@@ -68,13 +72,16 @@ const editCard = function (evt) {
 	input.focus();
 	input.selectionStart = input.value.length;
 	addDisable(editButtons);
-
+	addDisable(copyButtons);
+	addDisable(deleteButtons);
 	input.addEventListener('keydown', function (evt) {
 		if (evt.keyCode === 27) {
 			input.blur();
 			taskInfo.removeChild(form);
 			taskInfo.appendChild(taskName);
-			removeDisable(editButtons);	
+			removeDisable(editButtons);
+			removeDisable(copyButtons);
+			removeDisable(deleteButtons);
 		};
 	});
 
@@ -83,7 +90,9 @@ const editCard = function (evt) {
 		taskName.textContent = input.value;
 		taskInfo.removeChild(form);
 		taskInfo.appendChild(taskName);
-		removeDisable(editButtons);	
+		removeDisable(editButtons);
+		removeDisable(copyButtons);
+		removeDisable(deleteButtons);
 	});
 }
 
