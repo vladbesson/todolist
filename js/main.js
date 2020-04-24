@@ -32,7 +32,6 @@ const createTaskElement = function () {
 	`;
 	const element = document.createElement('div');
 	element.insertAdjacentHTML('afterbegin', markup);
-	console.log(element);
 	return element.firstElementChild;
 };
 
