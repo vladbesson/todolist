@@ -26,25 +26,33 @@ const renderSingleTask = function(name) {
 	list.appendChild(newTask);
 };
 
-list.addEventListener('click', (event) => {	
-	const targetButton = event.target.parentElement;	
-	const targetButtonClasses = targetButton.classList;
-	const task = targetButton.closest('.task');
-	if (targetButtonClasses.contains('task__btn_delete')){		
+const modifyTask = (task, clickButton) => {
+	const clickButtonClasses = clickButton.classList;
+	if (clickButtonClasses.contains('task__btn_delete')){		
 		task.remove();
 	}
-	else if (targetButtonClasses.contains('task__btn_copy')){		
+	else if (clickButtonClasses.contains('task__btn_copy')){		
 		const clonedTask = task.cloneNode(true);
 		task.after(clonedTask);
 	}
-	else if (targetButtonClasses.contains('task__btn_edit')){
-		const taskName = task.querySelector('.task__name').textContent;
-		const form = document.forms.new;
-		const input = form.querySelector('.todo__input');
-		input.value = taskName;
-		input.focus();
-		task.remove();
+	else if (clickButtonClasses.contains('task__btn_edit')){
+		const oldName = task.querySelector('.task__name').textContent;
+		editTask(task, oldName);
 	}
+}
+
+const editTask = (task, oldName) => {
+	task.remove();
+	const form = document.forms.new;
+	const input = form.querySelector('.todo__input');
+	input.value = oldName;
+	input.focus();	
+}
+
+list.addEventListener('click', (event) => {	
+	const clickButton = event.target.parentElement;		
+	const task = clickButton.closest('.task');
+	modifyTask(task, clickButton);
 })
 
 // пройтись по массиву данных циклом
