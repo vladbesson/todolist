@@ -10,6 +10,10 @@ body {
 	background-color: #000000;
 }
 
+img {
+	display: block;
+}
+
 /* .page */
 .page {
 	padding-top: 90px;
@@ -56,8 +60,7 @@ body {
 }
 
 .todo__input {
-	flex-grow: 1;
-	margin-right: 10px;
+	padding: 21px;
 }
 
 /* .task */
@@ -66,7 +69,6 @@ body {
 	border-radius: 5px;
 	display: flex;
 	justify-content: space-between;
-	align-items: baseline;
 	padding: 43px 45px 44px 45px;
 }
 
@@ -85,6 +87,24 @@ body {
 	cursor: pointer;
 }
 
+.task__btn_edit {
+	background-image: url("../images/edit-icon.svg");
+	width: 23px;
+	height: 23px;
+}
+
+.task__btn_copy {
+	background-image: url("../images/duplicate-icon.svg");
+	width: 25px;
+	height: 25px;
+}
+
+.task__btn_delete {
+	background-image: url("../images/delete-icon.svg");
+	width: 18px;
+	height: 17px;
+}
+
 .task__name {
 	margin: 0;
 	font-weight: 900;
@@ -101,8 +121,9 @@ body {
 	color: #000000;
 	background: #FFFFFF;
 	border-radius: 5px;
-	padding: 21px;
 	border: none;
+	flex-grow: 1;
+	margin-right: 10px;
 }
 
 /* .button */
