@@ -1,65 +1,77 @@
-const list = document.querySelector('.todo__list');
+const list = document.querySelector(".todo__list");
+const form = document.forms.todoForm;
 
-const createTaskElement = function() {
-	const markup = `
+const taskTemplate = value => `
 		<li class="todo__item task">
       <div class="task__info">
-        <p class="task__name"></p>
+        <p class="task__name">${value}</p>
       </div>
       <div class="task__controls">
-        <button class="task__btn task__btn_edit" type="button"><img src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
-        <button class="task__btn task__btn_copy" type="button"><img src="./images/duplicate-icon.svg" width="25" height="25" alt="Копировать"></button>
-        <button class="task__btn task__btn_delete" type="button"><img src="./images/delete-icon.svg" width="18" height="17" alt="Удалить"></button>
+        <button class="task__btn task__btn_edit task__btn_edit_active" type="button"></button>
+        <button class="task__btn task__btn_copy task__btn_copy_active" type="button"></button>
+        <button class="task__btn task__btn_delete" type="button"></button>
       </div>
     </li>
 	`;
 
-	const element = document.createElement('div');
-	element.insertAdjacentHTML('afterbegin', markup);
+const editInputTemplate = oldValue =>
+	`<input class="float__input input" type="text" required="" value="${oldValue}">`;
 
-	return element.firstElementChild;
+const createTaskElement = value =>
+	list.insertAdjacentHTML("afterbegin", taskTemplate(value));
+
+const buttonsChangeClass = (evt) => {
+	const closestTaskChild = evt.target.closest(".task").lastElementChild;
+	closestTaskChild.children[0].classList.toggle("task__btn_edit_active");
+	closestTaskChild.children[1].classList.toggle("task__btn_copy_active");
+}
+
+const showInputElement = evt => {
+	const closestTask = evt.target.closest(".task");
+	closestTask.firstElementChild.firstElementChild.insertAdjacentHTML(
+		"afterend",
+		editInputTemplate(
+			closestTask.firstElementChild.textContent.trim()
+		)
+	);
+	closestTask.firstElementChild.firstElementChild.textContent =	"";
+	buttonsChangeClass(evt);
 };
 
-const renderSingleTask = function(name) {
-	const newTask = createTaskElement();
-	newTask.querySelector('.task__name').textContent = name;
+const deleteBlock = item => item.remove();
 
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
+const cloneBlock = item => item.cloneNode(true);
 
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
-	list.appendChild(newTask);
+const acceptInput = evt => {
+	const closestTask = evt.target.closest(".task");
+	if (evt.key === "Enter") {
+		closestTask.firstElementChild.firstElementChild.textContent = evt.target.value;
+		buttonsChangeClass(evt);
+		evt.target.remove();
+	}
 };
 
-// пройтись по массиву данных циклом
-tasks.forEach(function(task) {
-	renderSingleTask(task.name);
-});
+const allButtonEvents = (evt) => {
+	const closestTask = evt.target.closest(".task");
+	if (evt.target.matches(".task__btn_edit_active")) {
+		showInputElement(evt);
+	}
+	if (evt.target.matches(".task__btn_delete")) {
+		deleteBlock(closestTask);
+	}
+	if (evt.target.matches(".task__btn_copy_active")) {
+		closestTask.after(cloneBlock(closestTask));
+	}
+}
 
-const form = document.querySelector('.todo__form');
-const input = document.querySelector('.todo__input');
-
-const onFormSubmitHandler = function (evt) {
+const formSubmit = evt => {
 	evt.preventDefault();
-	renderSingleTask(input.value);
-	input.value = '';
+	createTaskElement(form.todoForm__input.value);
+	form.reset();
 };
 
-form.addEventListener('submit', onFormSubmitHandler);
+list.addEventListener("click", allButtonEvents);
+list.addEventListener("keydown", acceptInput);
+form.addEventListener("submit", formSubmit);
+
+tasks.forEach(task => createTaskElement(task.name));
