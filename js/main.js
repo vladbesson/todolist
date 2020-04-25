@@ -22,32 +22,28 @@ const createTaskElement = function() {
 
 const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
-	newTask.querySelector('.task__name').textContent = name;
-
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-	
+	newTask.querySelector('.task__name').textContent = name;	
 	list.appendChild(newTask);
 };
 
 list.addEventListener('click', (event) => {	
 	const targetButton = event.target.parentElement;	
 	const targetButtonClasses = targetButton.classList;
+	const task = targetButton.closest('.task');
 	if (targetButtonClasses.contains('task__btn_delete')){		
-		const removingTask = targetButton.closest('.task');
-		removingTask.remove();
+		task.remove();
 	}
-	else if (targetButtonClasses.contains('task__btn_copy')){
-		const copyTask = targetButton.closest('.task');
-		const clonedTask = copyTask.cloneNode(true);
-		copyTask.after(clonedTask);
+	else if (targetButtonClasses.contains('task__btn_copy')){		
+		const clonedTask = task.cloneNode(true);
+		task.after(clonedTask);
+	}
+	else if (targetButtonClasses.contains('task__btn_edit')){
+		const taskName = task.querySelector('.task__name').textContent;
+		const form = document.forms.new;
+		const input = form.querySelector('.todo__input');
+		input.value = taskName;
+		input.focus();
+		task.remove();
 	}
 })
 
