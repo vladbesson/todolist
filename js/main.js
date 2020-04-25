@@ -28,25 +28,28 @@ const renderSingleTask = function(name) {
 	const copyButton = newTask.querySelector('.task__btn_copy');
 	const editButton = newTask.querySelector('.task__btn_edit');
 
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
 	editButton.addEventListener('click', function (evt) {
 		const text = prompt('Введите новый текст');
 		const task = evt.currentTarget.closest('.task');
 		task.querySelector('.task__name').textContent = text;
 	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
+	
 	list.appendChild(newTask);
 };
+
+list.addEventListener('click', (event) => {	
+	const targetButton = event.target.parentElement;	
+	const targetButtonClasses = targetButton.classList;
+	if (targetButtonClasses.contains('task__btn_delete')){		
+		const removingTask = targetButton.closest('.task');
+		removingTask.remove();
+	}
+	else if (targetButtonClasses.contains('task__btn_copy')){
+		const copyTask = targetButton.closest('.task');
+		const clonedTask = copyTask.cloneNode(true);
+		copyTask.after(clonedTask);
+	}
+})
 
 // пройтись по массиву данных циклом
 tasks.forEach(function(task) {
