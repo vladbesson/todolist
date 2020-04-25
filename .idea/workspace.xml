@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f0a40dbb-8cb6-4a20-b3ac-dbdc822c4c33" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/todolist.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1azlmBOih8QX2kFKUMbcaU1u6fK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hexlet" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f0a40dbb-8cb6-4a20-b3ac-dbdc822c4c33" name="Default Changelist" comment="" />
+      <created>1587746459980</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587746459980</updated>
+      <workItem from="1587746461148" duration="12237000" />
+      <workItem from="1587769752024" duration="1556000" />
+      <workItem from="1587835268357" duration="9575000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="94" y="358" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587770358724">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="94" y="358" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400/-1920.0.1920.1040@0.0.2560.1400" timestamp="1587770358724" />
+    <state x="420" y="458" key="FileChooserDialogImpl" timestamp="1587845065619">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="420" y="458" key="FileChooserDialogImpl/0.0.2560.1400/-1920.0.1920.1040@0.0.2560.1400" timestamp="1587845065619" />
+    <state x="141" y="348" key="SettingsEditor" timestamp="1587770387108">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="141" y="348" key="SettingsEditor/0.0.2560.1400/-1920.0.1920.1040@0.0.2560.1400" timestamp="1587770387108" />
+    <state x="296" y="334" key="run.anything.popup" timestamp="1587769337567">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="296" y="334" key="run.anything.popup/0.0.2560.1400/-1920.0.1920.1040@0.0.2560.1400" timestamp="1587769337567" />
+    <state x="303" y="320" width="672" height="678" key="search.everywhere.popup" timestamp="1587748536348">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="303" y="320" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400/-1920.0.1920.1040@0.0.2560.1400" timestamp="1587748536348" />
+  </component>
+</project>
