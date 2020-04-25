@@ -1,6 +1,8 @@
 const list = document.querySelector('.todo__list');
 const form = document.querySelector('.todo__form');
 
+/* ФУКНЦИИ */
+// создать пустую задачу без добавления на страницу
 function createTaskElement() {
     const markup = `
         <li class="todo__item task">
@@ -21,17 +23,38 @@ function createTaskElement() {
     return element.firstElementChild;
 };
 
+// вызвать функцию создания пустой задачи, задать текст и добавить задачу на страницу
 function renderSingleTask(name) {
-	const newTask = createTaskElement();
-	newTask.querySelector('.task__name').textContent = name;
-	list.appendChild(newTask);
+    const newTask = createTaskElement();
+    newTask.querySelector('.task__name').textContent = name;
+    list.appendChild(newTask);
 };
 
-// function deleteTask (evt) {
-//     const deleteButton = newTask.querySelector('.task__btn_delete');
-//     const task = evt.currentTarget.closest('.task');
-//     list.removeChild(task);
-// }
+// создать изначальный набор задач из массива
+function createInitialTasks() {
+    tasks.forEach(function (task) {
+        renderSingleTask(task.name);
+    });
+}
+
+/* Слушатели и обработчики - раздельно
+Вариант 1
+В обработчике - проверка класса. (Проблема: у img нет класса.
+    – Сначала поискать решения без присвоения класса img, если неудовл. - присвоить класс.)
+Вариант 2
+В обработчике нет проверки класса, и он вешается не на список (делегирование), а на кнопку. Тогда кнопка объявляется
+    переменной глобально. Ошибка: при загрузке тасков нет. Решение: сделать эту переменную пустой let,
+    а записывать в нее кнопку внутри функции, создающей таску?
+
+ */
+function deleteTask(evt) {
+    if (evt.target.parent.classList.contains('task__btn_delete')) {
+        const task = evt.target.closest('.task');
+        list.removeChild(task);
+    }
+    // console.log(evt.currentTarget);
+    // console.log(evt.target);
+}
 
 // function copyTask (evt) {
 //     const copyButton = newTask.querySelector('.task__btn_copy');
@@ -48,10 +71,6 @@ function renderSingleTask(name) {
 // }
 
 
-// пройтись по массиву данных циклом
-// tasks.forEach(function(task) {
-//     renderSingleTask(task.name);
-// });
 
 
 /* ОБРАБОТЧИКИ СОБЫТИЙ */
@@ -59,15 +78,17 @@ function renderSingleTask(name) {
 function onFormSubmitHandler(evt) {
     evt.preventDefault();
     const input = document.querySelector('.todo__input');
-	renderSingleTask(input.value);
-	input.value = '';
+    renderSingleTask(input.value);
+    input.value = '';
 };
 
 // СЛУШАТЕЛИ СОБЫТИЙ
 form.addEventListener('submit', onFormSubmitHandler);
 
-// deleteButton.addEventListener('click', deleteTask);
+list.addEventListener('click', deleteTask);
 
-// editButton.addEventListener('click', editTask);
+// list.addEventListener('click', editTask);
 
-// copyButton.addEventListener('click', copyTask);
+// list.addEventListener('click', copyTask);
+/* ВЫЗОВЫ ФУНКЦИЙ */
+createInitialTasks()
