@@ -48,12 +48,16 @@ function createInitialTasks() {
 
  */
 function deleteTask(evt) {
-    if (evt.target.parent.classList.contains('task__btn_delete')) {
+    if (evt.target.parentElement.classList.contains('task__btn_delete')) {
         const task = evt.target.closest('.task');
         list.removeChild(task);
     }
+
     // console.log(evt.currentTarget);
     // console.log(evt.target);
+    // console.log(evt.target.parent);
+    // console.log(evt.target.parentNode);
+    // console.log(evt.target.parentElement.classList);
 }
 
 // function copyTask (evt) {
