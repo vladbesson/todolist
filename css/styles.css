@@ -85,6 +85,10 @@ body {
 	cursor: pointer;
 }
 
+.task__img {
+	pointer-events: none;
+}
+
 .task__name {
 	margin: 0;
 	font-weight: 900;
@@ -115,4 +119,9 @@ body {
 	border-radius: 5px;
 	padding: 21px;
 	border: none;
+}
+
+.content-editable {
+	background-color: darkblue;
+	color: white;
 }

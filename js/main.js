@@ -7,9 +7,9 @@ const createTaskElement = function() {
         <p class="task__name"></p>
       </div>
       <div class="task__controls">
-        <button class="task__btn task__btn_edit" type="button"><img src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
-        <button class="task__btn task__btn_copy" type="button"><img src="./images/duplicate-icon.svg" width="25" height="25" alt="Копировать"></button>
-        <button class="task__btn task__btn_delete" type="button"><img src="./images/delete-icon.svg" width="18" height="17" alt="Удалить"></button>
+        <button class="task__btn task__btn_edit" type="button"><img class="task__img" src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
+        <button class="task__btn task__btn_copy" type="button"><img class="task__img" src="./images/duplicate-icon.svg" width="25" height="25" alt="Копировать"></button>
+        <button class="task__btn task__btn_delete" type="button"><img class="task__img" src="./images/delete-icon.svg" width="18" height="17" alt="Удалить"></button>
       </div>
     </li>
 	`;
@@ -17,49 +17,56 @@ const createTaskElement = function() {
 	const element = document.createElement('div');
 	element.insertAdjacentHTML('afterbegin', markup);
 
+	const task = element.querySelector('.task__name');
+	task.addEventListener('blur', () => {
+		task.setAttribute('contenteditable', false);
+		task.classList.toggle('content-editable');
+	})
 	return element.firstElementChild;
 };
+
+const onTodoClickHandler = (event) => {
+	const item = event.target.closest('.task');
+	const list = item.closest('.todo__list');
+	if (event.target.classList.contains('task__btn_delete')) {
+		list.removeChild(item);
+	}
+	if (event.target.classList.contains('task__btn_copy')) {
+		const newItem = item.cloneNode(true);
+		item.after(newItem);
+	}
+	if (event.target.classList.contains('task__btn_edit')) {
+		const itemTextEl = item.querySelector('.task__name');
+		itemTextEl.setAttribute('contenteditable', true);
+		itemTextEl.classList.toggle('content-editable');
+		itemTextEl.focus();
+	}
+}
 
 const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
-
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
 	list.appendChild(newTask);
 };
 
-// пройтись по массиву данных циклом
-tasks.forEach(function(task) {
-	renderSingleTask(task.name);
-});
-
-const form = document.querySelector('.todo__form');
-const input = document.querySelector('.todo__input');
-
 const onFormSubmitHandler = function (evt) {
 	evt.preventDefault();
+	const input = document.querySelector('.todo__input');
 	renderSingleTask(input.value);
 	input.value = '';
 };
 
-form.addEventListener('submit', onFormSubmitHandler);
+const init = () => {
+	const form = document.querySelector('.todo__form');
+	form.addEventListener('submit', onFormSubmitHandler);
+
+	const list = document.querySelector('.todo__list');
+	list.addEventListener('click', onTodoClickHandler);
+
+	// пройтись по массиву данных циклом
+	tasks.forEach(function(task) {
+		renderSingleTask(task.name);
+	});
+}
+
+init();
