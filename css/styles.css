@@ -87,12 +87,39 @@ body {
     cursor: pointer;
 }
 
+
+/* Так вокруг значков возникает белая граница, хотя если поискать по этому файлу по border или outline, ей просто
+неоткуда взяться! */
+/*
+.task__btn-image {
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
+    outline: none;
+}
+.task__btn-image_delete {
+    background-image: url(../images/delete-icon.svg);
+}
+
+.task__btn-image_delete:hover {
+    background-image: url(../images/delete-icon-green.svg);
+}
+
+.task__btn-image_copy {
+    background-image: url(../images/duplicate-icon.svg);
+}
+
+.task__btn-image_edit {
+    background-image: url(../images/edit-icon.svg);
+} */
+
 .task__name {
     margin: 0;
     font-weight: 900;
     font-size: 24px;
     line-height: 29px;
-
     color: #FFFFFF;
     border: none;
     background: none;
@@ -122,7 +149,7 @@ body {
     font-size: 24px;
     line-height: 29px;
     color: #000000;
-    background: #FFFFFF;
+    /* background: #FFFFFF; */
     border-radius: 5px;
     padding: 21px;
     border: none;
