@@ -92,6 +92,14 @@ body {
     font-weight: 900;
     font-size: 24px;
     line-height: 29px;
+
+    color: #FFFFFF;
+    border: none;
+    background: none;
+    /* background-image:none; */
+    /* background-color: transparent; */
+    box-shadow: none;
+    outline: none;
 }
 
 /* .input */

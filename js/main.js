@@ -55,12 +55,26 @@ function copyTask(evt) {
 
 function editTask(evt) {
     if (evt.target.parentElement.classList.contains('task__btn_edit')) {
+        // ВАРИАНТ С PROMPT
+        // const task = evt.target.closest('.task');
+        // const newText = prompt('Введите новый текст');
+        // ОТРЕФАКТОРИЛ ПРОМПТ:
+        // // if (newText !== null) {
+            // if (newText.length > 0) {
+                //     task.querySelector('.task__name').textContent = newText;
+                // }
+
+        // ВАРИАНТ "INLINE"
         const task = evt.target.closest('.task');
-        const newText = prompt('Введите новый текст');
-        // if (newText !== null) {
-        if (newText.length > 0) {
-            task.querySelector('.task__name').textContent = newText;
-        }
+        const taskInfo = task.querySelector('.task__info');
+        const taskText = task.querySelector('.task__name');
+        const inputBox = document.createElement('input');
+        inputBox.value = taskText.textContent;
+        inputBox.classList.add('task__name');
+        taskInfo.replaceChild(inputBox, taskText);
+        inputBox.focus();
+
+        // console.log(taskText.textContent);
     }
 }
 
