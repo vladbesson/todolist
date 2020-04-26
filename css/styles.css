@@ -85,6 +85,10 @@ body {
 	cursor: pointer;
 }
 
+.task__img {
+	pointer-events: none;
+}
+
 .task__name {
 	margin: 0;
 	font-weight: 900;

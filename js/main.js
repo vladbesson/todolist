@@ -7,9 +7,9 @@ const createTaskElement = function() {
         <p class="task__name"></p>
       </div>
       <div class="task__controls">
-        <button class="task__btn task__btn_edit" type="button"><img src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
-        <button class="task__btn task__btn_copy" type="button"><img src="./images/duplicate-icon.svg" width="25" height="25" alt="Копировать"></button>
-        <button class="task__btn task__btn_delete" type="button"><img src="./images/delete-icon.svg" width="18" height="17" alt="Удалить"></button>
+        <button class="task__btn task__btn_edit" type="button"><img class="task__img" src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
+        <button class="task__btn task__btn_copy" type="button"><img class="task__img" src="./images/duplicate-icon.svg" width="25" height="25" alt="Копировать"></button>
+        <button class="task__btn task__btn_delete" type="button"><img class="task__img" src="./images/delete-icon.svg" width="18" height="17" alt="Удалить"></button>
       </div>
     </li>
 	`;
@@ -20,18 +20,23 @@ const createTaskElement = function() {
 	return element.firstElementChild;
 };
 
+const singleTaskHandler = (event) => {
+	if (event.target.classList.contains('task__btn_delete')) {
+		const item = event.target.closest('.task');
+		const list = item.closest('.todo__list');
+		console.log(event.target);
+		console.log(list);
+		list.removeChild(item);
+	}
+}
+
 const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
+	newTask.addEventListener('click', singleTaskHandler)
 
-	const deleteButton = newTask.querySelector('.task__btn_delete');
 	const copyButton = newTask.querySelector('.task__btn_copy');
 	const editButton = newTask.querySelector('.task__btn_edit');
-
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
 
 	editButton.addEventListener('click', function (evt) {
 		const text = prompt('Введите новый текст');
