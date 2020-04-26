@@ -5,7 +5,7 @@ const form = document.querySelector('.todo__form');
 // создать пустую задачу без добавления на страницу
 function createTaskElement() {
     const markup = `
-        <li class="todo__item task">
+        <li class="todo__item task element-highlighting">
             <div class="task__info">
                 <p class="task__name"></p>
             </div>
@@ -37,42 +37,32 @@ function createInitialTasks() {
     });
 }
 
-/* Слушатели и обработчики - раздельно
-Вариант 1
-В обработчике - проверка класса. (Проблема: у img нет класса.
-    – Сначала поискать решения без присвоения класса img, если неудовл. - присвоить класс.)
-Вариант 2
-В обработчике нет проверки класса, и он вешается не на список (делегирование), а на кнопку. Тогда кнопка объявляется
-    переменной глобально. Ошибка: при загрузке тасков нет. Решение: сделать эту переменную пустой let,
-    а записывать в нее кнопку внутри функции, создающей таску?
-
- */
 function deleteTask(evt) {
+    // Вар1.1
     if (evt.target.parentElement.classList.contains('task__btn_delete')) {
         const task = evt.target.closest('.task');
         list.removeChild(task);
     }
-
-    // console.log(evt.currentTarget);
-    // console.log(evt.target);
-    // console.log(evt.target.parent);
-    // console.log(evt.target.parentNode);
-    // console.log(evt.target.parentElement.classList);
 }
 
-// function copyTask (evt) {
-//     const copyButton = newTask.querySelector('.task__btn_copy');
-//     const task = evt.currentTarget.closest('.task');
-//     const clonedTask = task.cloneNode(true);
-//     task.after(clonedTask);
-// }
+function copyTask(evt) {
+    if (evt.target.parentElement.classList.contains('task__btn_copy')) {
+        const task = evt.target.closest('.task');
+        const clonedTask = task.cloneNode(true);
+        task.after(clonedTask);
+    }
+}
 
-// function editTask (evt) {
-//     const editButton = newTask.querySelector('.task__btn_edit');
-//     const text = prompt('Введите новый текст');
-//     const task = evt.currentTarget.closest('.task');
-//     task.querySelector('.task__name').textContent = text;
-// }
+function editTask(evt) {
+    if (evt.target.parentElement.classList.contains('task__btn_edit')) {
+        const task = evt.target.closest('.task');
+        const newText = prompt('Введите новый текст');
+        // if (newText !== null) {
+        if (newText.length > 0) {
+            task.querySelector('.task__name').textContent = newText;
+        }
+    }
+}
 
 
 
@@ -89,10 +79,10 @@ function onFormSubmitHandler(evt) {
 // СЛУШАТЕЛИ СОБЫТИЙ
 form.addEventListener('submit', onFormSubmitHandler);
 
+// Вар1.1
 list.addEventListener('click', deleteTask);
+list.addEventListener('click', copyTask);
+list.addEventListener('click', editTask);
 
-// list.addEventListener('click', editTask);
-
-// list.addEventListener('click', copyTask);
 /* ВЫЗОВЫ ФУНКЦИЙ */
 createInitialTasks()
