@@ -17,54 +17,56 @@ const createTaskElement = function() {
 	const element = document.createElement('div');
 	element.insertAdjacentHTML('afterbegin', markup);
 
+	const task = element.querySelector('.task__name');
+	task.addEventListener('blur', () => {
+		task.setAttribute('contenteditable', false);
+		task.classList.toggle('content-editable');
+	})
 	return element.firstElementChild;
 };
 
-const singleTaskHandler = (event) => {
+const onTodoClickHandler = (event) => {
+	const item = event.target.closest('.task');
+	const list = item.closest('.todo__list');
 	if (event.target.classList.contains('task__btn_delete')) {
-		const item = event.target.closest('.task');
-		const list = item.closest('.todo__list');
-		console.log(event.target);
-		console.log(list);
 		list.removeChild(item);
+	}
+	if (event.target.classList.contains('task__btn_copy')) {
+		const newItem = item.cloneNode(true);
+		item.after(newItem);
+	}
+	if (event.target.classList.contains('task__btn_edit')) {
+		const itemTextEl = item.querySelector('.task__name');
+		itemTextEl.setAttribute('contenteditable', true);
+		itemTextEl.classList.toggle('content-editable');
+		itemTextEl.focus();
 	}
 }
 
 const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
-	newTask.addEventListener('click', singleTaskHandler)
-
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
 	list.appendChild(newTask);
 };
 
-// пройтись по массиву данных циклом
-tasks.forEach(function(task) {
-	renderSingleTask(task.name);
-});
-
-const form = document.querySelector('.todo__form');
-const input = document.querySelector('.todo__input');
-
 const onFormSubmitHandler = function (evt) {
 	evt.preventDefault();
+	const input = document.querySelector('.todo__input');
 	renderSingleTask(input.value);
 	input.value = '';
 };
 
-form.addEventListener('submit', onFormSubmitHandler);
+const init = () => {
+	const form = document.querySelector('.todo__form');
+	form.addEventListener('submit', onFormSubmitHandler);
+
+	const list = document.querySelector('.todo__list');
+	list.addEventListener('click', onTodoClickHandler);
+
+	// пройтись по массиву данных циклом
+	tasks.forEach(function(task) {
+		renderSingleTask(task.name);
+	});
+}
+
+init();
