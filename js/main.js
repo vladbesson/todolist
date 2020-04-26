@@ -1,5 +1,30 @@
 const list = document.querySelector('.todo__list');
 
+const deleteTask = function(task) {
+	list.removeChild(task);
+};
+
+const copyTask = function(task) {
+	const clonedTask = task.cloneNode(true);
+	task.after(clonedTask);
+};
+
+const editTask = function(task) {
+	const onEditSubmitHandler = function(evt) {
+		evt.preventDefault();
+		text = input.value;
+		task.querySelector('.task__name').textContent = text;
+		input.value = '';
+		form.removeEventListener('submit', onEditSubmitHandler);
+		form.addEventListener('submit', onFormSubmitHandler);
+	}
+
+	input.focus();
+	input.value = task.querySelector('.task__name').textContent;
+	form.removeEventListener('submit', onFormSubmitHandler);
+	form.addEventListener('submit', onEditSubmitHandler);
+};
+
 const createTaskElement = function() {
 	const markup = `
 		<li class="todo__item task">
@@ -24,27 +49,6 @@ const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
 
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
 	list.appendChild(newTask);
 };
 
@@ -62,4 +66,18 @@ const onFormSubmitHandler = function (evt) {
 	input.value = '';
 };
 
+const onAnyTaskBtnHandler = function(evt) {
+	const taskBtn = evt.target.closest('.task__btn');
+	const task = evt.target.closest('.task');
+
+	if (taskBtn.classList.contains('task__btn_delete')) {
+		deleteTask(task);
+	} else if (taskBtn.classList.contains('task__btn_copy')) {
+		copyTask(task);
+	} else if (taskBtn.classList.contains('task__btn_edit')) {
+		editTask(task);
+	}
+};
+
 form.addEventListener('submit', onFormSubmitHandler);
+list.addEventListener('click', onAnyTaskBtnHandler);
