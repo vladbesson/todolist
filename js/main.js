@@ -1,30 +1,12 @@
+/* Переменные */
+
 const list = document.querySelector('.todo__list');
+const form = document.querySelector('.todo__form');
+const input = document.querySelector('.todo__input');
 
-const deleteTask = function(task) {
-	list.removeChild(task);
-};
+/* Функции */
 
-const copyTask = function(task) {
-	const clonedTask = task.cloneNode(true);
-	task.after(clonedTask);
-};
-
-const editTask = function(task) {
-	const onEditSubmitHandler = function(evt) {
-		evt.preventDefault();
-		text = input.value;
-		task.querySelector('.task__name').textContent = text;
-		input.value = '';
-		form.removeEventListener('submit', onEditSubmitHandler);
-		form.addEventListener('submit', onFormSubmitHandler);
-	}
-
-	input.focus();
-	input.value = task.querySelector('.task__name').textContent;
-	form.removeEventListener('submit', onFormSubmitHandler);
-	form.addEventListener('submit', onEditSubmitHandler);
-};
-
+// Создает элемент таск
 const createTaskElement = function() {
 	const markup = `
 		<li class="todo__item task">
@@ -45,6 +27,7 @@ const createTaskElement = function() {
 	return element.firstElementChild;
 };
 
+// Добавляет таск в разметку
 const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
@@ -52,20 +35,64 @@ const renderSingleTask = function(name) {
 	list.appendChild(newTask);
 };
 
-// пройтись по массиву данных циклом
-tasks.forEach(function(task) {
-	renderSingleTask(task.name);
-});
+// Удаляет таск из разметки
+const deleteTask = function(task) {
+	list.removeChild(task);
+};
 
-const form = document.querySelector('.todo__form');
-const input = document.querySelector('.todo__input');
+// Создает копию таска
+const copyTask = function(task) {
+	const clonedTask = task.cloneNode(true);
+	task.after(clonedTask);
+};
 
+// Редактирование таска
+const editTask = function(task) {
+	// Выходим из режима редактирования
+	const escEditTask = function(task) {
+		task.removeAttribute('style');
+		input.value = '';
+
+		form.removeEventListener('submit', onEditSubmitHandler);
+		document.removeEventListener('keydown', onEscEditHandler);
+
+		form.addEventListener('submit', onFormSubmitHandler);
+		list.addEventListener('click', onAnyTaskBtnHandler);
+	};
+
+	// Слушаем submit в режиме редактирования
+	const onEditSubmitHandler = function(evt) {
+		evt.preventDefault();
+		task.querySelector('.task__name').textContent = input.value;
+		escEditTask(task);
+	};
+
+	// Слушаем нажатие Esc в режиме редактирования
+	const onEscEditHandler = function(evt) {
+		if (evt.key == 'Escape') {
+			escEditTask(task);
+		}
+	};
+
+	input.focus();
+	task.setAttribute('style', 'background: darkblue');
+	input.value = task.querySelector('.task__name').textContent;
+
+	list.removeEventListener('click', onAnyTaskBtnHandler);
+	form.removeEventListener('submit', onFormSubmitHandler);
+
+	form.addEventListener('submit', onEditSubmitHandler);
+	document.addEventListener('keydown', onEscEditHandler);
+};
+
+// Обработчик нажатия "Сохранить"
 const onFormSubmitHandler = function (evt) {
 	evt.preventDefault();
 	renderSingleTask(input.value);
 	input.value = '';
 };
 
+// Обработчик нажатий кнопок на таске
 const onAnyTaskBtnHandler = function(evt) {
 	const taskBtn = evt.target.closest('.task__btn');
 	const task = evt.target.closest('.task');
@@ -79,5 +106,12 @@ const onAnyTaskBtnHandler = function(evt) {
 	}
 };
 
+/* Добавляем слушателей */
+
 form.addEventListener('submit', onFormSubmitHandler);
 list.addEventListener('click', onAnyTaskBtnHandler);
+
+// пройтись по массиву данных циклом
+tasks.forEach(function(task) {
+	renderSingleTask(task.name);
+});
