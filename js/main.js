@@ -38,8 +38,9 @@ function createInitialTasks() {
     });
 }
 
+/* ОБРАБОТЧИКИ СОБЫТИЙ */
+
 function deleteTask(evt) {
-    // Вар1.1
     if (evt.target.classList.contains('task__btn_delete')) {
         const task = evt.target.closest('.task');
         list.removeChild(task);
@@ -51,22 +52,35 @@ function copyTask(evt) {
         const task = evt.target.closest('.task');
         const clonedTask = task.cloneNode(true);
         task.after(clonedTask);
+        console.log(clonedTask);
     }
 }
 
-function editTask(evt) {
-    if (evt.target.classList.contains('task__btn_edit')) {
-        const task = evt.target.closest('.task');
-        const taskText = task.querySelector('.task__name');
-        taskText.removeAttribute('readonly');
-        taskText.focus();
-        // taskText.select(); // Это суперудобно, но для этого поле ввода должно более очевидно выглядеть
-        // как поле ввода, чем по моей задумке.
+function openTaskForEditing(evt) {
+    const task = evt.target.closest('.task');
+    const taskText = task.querySelector('.task__name');
+    taskText.removeAttribute('readonly');
+    taskText.focus();
+    const editButton = task.querySelector('.task__btn_edit');
+    editButton.classList.add('task__btn_save'); // Изменяет иконку
+    editButton.classList.remove('task__btn_edit');
+    list.addEventListener('click', saveEditedTask); // Добавляет слушатель, чтобы при клике по желтой галке
+    // срабатывало закрытие
+    task.classList.add('editable-element-highlighting');
+    console.log('openTaskForEditing');
+}
 
-        evt.target.classList.add('task__btn_save');
-        evt.target.classList.remove('task__btn_edit');
-        list.addEventListener('click', saveEditedTask);
-        // console.log('editTask');
+function editTaskViaIcon(evt) {
+    if (evt.target.classList.contains('task__btn_edit')) {
+        openTaskForEditing(evt);
+        console.log('editTaskViaIcon');
+    }
+}
+
+function editTaskViaDoubleclick(evt) {
+    if (evt.target.classList.contains('task__name')) {
+        openTaskForEditing(evt);
+        console.log('editTaskViaDoubleclick');
     }
 }
 
@@ -75,15 +89,17 @@ function saveEditedTask(evt) {
         const task = evt.target.closest('.task');
         const taskText = task.querySelector('.task__name');
         taskText.setAttribute('readonly', true);
-
         evt.target.classList.add('task__btn_edit');
         evt.target.classList.remove('task__btn_save');
-        list.removeEventListener('click', saveEditedTask);
-        // console.log('saveEditedTask');
+        if (list.querySelectorAll('.task__btn_save').length < 2) {
+            list.removeEventListener('click', saveEditedTask);
+            console.log('less than 2');
+        }
+        task.classList.remove('editable-element-highlighting');
+        console.log('saveEditedTask');
     }
 }
 
-/* ОБРАБОТЧИКИ СОБЫТИЙ */
 // добавляет задачу по нажатию на кнопку
 function onFormSubmitHandler(evt) {
     evt.preventDefault();
@@ -94,12 +110,12 @@ function onFormSubmitHandler(evt) {
 
 // СЛУШАТЕЛИ СОБЫТИЙ
 form.addEventListener('submit', onFormSubmitHandler);
-
-// Вар1.1
 list.addEventListener('click', deleteTask);
 list.addEventListener('click', copyTask);
-list.addEventListener('click', editTask);
-// list.addEventListener('click', saveEditedTask);
+list.addEventListener('click', editTaskViaIcon);
+list.addEventListener('dblclick', editTaskViaDoubleclick);
+// list.addEventListener('click', saveEditedTask); // Если поставить его здесь, при открытии таски
+// для редактирования срабатывает сразу и он.
 
 /* ВЫЗОВЫ ФУНКЦИЙ */
 createInitialTasks()
