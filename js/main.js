@@ -54,40 +54,6 @@ function copyTask(evt) {
     }
 }
 
-
-// ВАРИАНТ С PROMPT
-// function editTask(evt) {
-//     if (evt.target.classList.contains('task__btn_edit')) {
-//         const task = evt.target.closest('.task');
-//         const newText = prompt('Введите новый текст');
-//         // ОТРЕФАКТОРИЛ ПРОМПТ:
-//         // if (newText !== null) {
-//         if (newText.length > 0) {
-//             task.querySelector('.task__name').textContent = newText;
-//         }
-//     }
-// }
-
-// ВАРИАНТ "INLINE". А: менять p на input (и обратно). Б: просто заменить p на input в разметке,
-// а менять у него атрибут readonly.
-// INLINE А
-// function editTask(evt) {
-//     if (evt.target.classList.contains('task__btn_edit')) {
-//         замена p на input
-//         const task = evt.target.closest('.task');
-//         const taskInfo = task.querySelector('.task__info');
-//         const taskText = task.querySelector('.task__name');
-//         const inputBox = document.createElement('input');
-//         inputBox.value = taskText.textContent;
-//         inputBox.classList.add('task__name');
-//         taskInfo.replaceChild(inputBox, taskText);
-//         inputBox.focus();
-//         замена input на p по сохранению
-//         ...
-//     }
-// }
-
-// INLINE Б
 function editTask(evt) {
     if (evt.target.classList.contains('task__btn_edit')) {
         const task = evt.target.closest('.task');
@@ -99,7 +65,8 @@ function editTask(evt) {
 
         evt.target.classList.add('task__btn_save');
         evt.target.classList.remove('task__btn_edit');
-        console.log('editTask');
+        list.addEventListener('click', saveEditedTask);
+        // console.log('editTask');
     }
 }
 
@@ -109,9 +76,10 @@ function saveEditedTask(evt) {
         const taskText = task.querySelector('.task__name');
         taskText.setAttribute('readonly', true);
 
-        // evt.target.classList.add('task__btn_edit');
-        // evt.target.classList.remove('task__btn_save');
-        console.log('saveEditedTask');
+        evt.target.classList.add('task__btn_edit');
+        evt.target.classList.remove('task__btn_save');
+        list.removeEventListener('click', saveEditedTask);
+        // console.log('saveEditedTask');
     }
 }
 
@@ -131,7 +99,7 @@ form.addEventListener('submit', onFormSubmitHandler);
 list.addEventListener('click', deleteTask);
 list.addEventListener('click', copyTask);
 list.addEventListener('click', editTask);
-list.addEventListener('click', saveEditedTask);
+// list.addEventListener('click', saveEditedTask);
 
 /* ВЫЗОВЫ ФУНКЦИЙ */
 createInitialTasks()

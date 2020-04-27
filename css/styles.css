@@ -111,12 +111,13 @@ body {
 }
 
 .task__btn_save {
-    background-image: url(../images/Tick-Box-icon.svg);
+    /* background-image: url(../images/Tick-Box-icon.svg); */
+    background-image: url(../images/Tick-Box-icon-yellow.svg);
     /* transition: background-image .5s ease; */
 }
 
 .task__btn_delete:hover {
-    background-image: url(../images/delete-icon-green.svg);
+    background-image: url(../images/delete-icon-red.svg);
 }
 
 .task__btn_copy:hover {
