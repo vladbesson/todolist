@@ -7,14 +7,14 @@ function createTaskElement() {
     const markup = `
         <li class="todo__item task element-highlighting">
             <div class="task__info">
-                <p class="task__name"></p>
+                <input type="text" class="task__name" readonly/>
             </div>
             <div class="task__controls">
-                <button class="task__btn task__btn_edit" type="button"><img class="task__btn-image task__btn-image_edit"></button>
-                <button class="task__btn task__btn_copy" type="button"><img class="task__btn-image task__btn-image_copy"></button>
-                <button class="task__btn task__btn_delete" type="button"><img class="task__btn-image task__btn-image_delete"></button>
-                </div>
-                </li>
+                <button class="task__btn task__btn_edit" type="button"></button>
+                <button class="task__btn task__btn_copy" type="button"></button>
+                <button class="task__btn task__btn_delete" type="button"></button>
+            </div>
+        </li>
                 `;
 
     const element = document.createElement('div');
@@ -22,14 +22,12 @@ function createTaskElement() {
 
     return element.firstElementChild;
 };
-                // <button class="task__btn task__btn_edit" type="button"><img class="task__btn-image" src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
-                // <button class="task__btn task__btn_copy" type="button"><img class="task__btn-image" src="./images/duplicate-icon.svg" width="25" height="25" alt="Копировать"></button>
-                // <button class="task__btn task__btn_delete" type="button"><img class="task__btn-image" src="./images/delete-icon.svg" width="18" height="17" alt="Удалить"></button>
 
 // вызвать функцию создания пустой задачи, задать текст и добавить задачу на страницу
 function renderSingleTask(name) {
     const newTask = createTaskElement();
-    newTask.querySelector('.task__name').textContent = name;
+    // newTask.querySelector('.task__name').textContent = name; // Если p
+    newTask.querySelector('.task__name').value = name; // Если input
     list.appendChild(newTask);
 };
 
@@ -42,47 +40,80 @@ function createInitialTasks() {
 
 function deleteTask(evt) {
     // Вар1.1
-    if (evt.target.parentElement.classList.contains('task__btn_delete')) {
+    if (evt.target.classList.contains('task__btn_delete')) {
         const task = evt.target.closest('.task');
         list.removeChild(task);
     }
 }
 
 function copyTask(evt) {
-    if (evt.target.parentElement.classList.contains('task__btn_copy')) {
+    if (evt.target.classList.contains('task__btn_copy')) {
         const task = evt.target.closest('.task');
         const clonedTask = task.cloneNode(true);
         task.after(clonedTask);
     }
 }
 
+
+// ВАРИАНТ С PROMPT
+// function editTask(evt) {
+//     if (evt.target.classList.contains('task__btn_edit')) {
+//         const task = evt.target.closest('.task');
+//         const newText = prompt('Введите новый текст');
+//         // ОТРЕФАКТОРИЛ ПРОМПТ:
+//         // if (newText !== null) {
+//         if (newText.length > 0) {
+//             task.querySelector('.task__name').textContent = newText;
+//         }
+//     }
+// }
+
+// ВАРИАНТ "INLINE". А: менять p на input (и обратно). Б: просто заменить p на input в разметке,
+// а менять у него атрибут readonly.
+// INLINE А
+// function editTask(evt) {
+//     if (evt.target.classList.contains('task__btn_edit')) {
+//         замена p на input
+//         const task = evt.target.closest('.task');
+//         const taskInfo = task.querySelector('.task__info');
+//         const taskText = task.querySelector('.task__name');
+//         const inputBox = document.createElement('input');
+//         inputBox.value = taskText.textContent;
+//         inputBox.classList.add('task__name');
+//         taskInfo.replaceChild(inputBox, taskText);
+//         inputBox.focus();
+//         замена input на p по сохранению
+//         ...
+//     }
+// }
+
+// INLINE Б
 function editTask(evt) {
-    if (evt.target.parentElement.classList.contains('task__btn_edit')) {
-        // ВАРИАНТ С PROMPT
-        // const task = evt.target.closest('.task');
-        // const newText = prompt('Введите новый текст');
-        // ОТРЕФАКТОРИЛ ПРОМПТ:
-        // // if (newText !== null) {
-            // if (newText.length > 0) {
-                //     task.querySelector('.task__name').textContent = newText;
-                // }
-
-        // ВАРИАНТ "INLINE"
+    if (evt.target.classList.contains('task__btn_edit')) {
         const task = evt.target.closest('.task');
-        const taskInfo = task.querySelector('.task__info');
         const taskText = task.querySelector('.task__name');
-        const inputBox = document.createElement('input');
-        inputBox.value = taskText.textContent;
-        inputBox.classList.add('task__name');
-        taskInfo.replaceChild(inputBox, taskText);
-        inputBox.focus();
+        taskText.removeAttribute('readonly');
+        taskText.focus();
+        // taskText.select(); // Это суперудобно, но для этого поле ввода должно более очевидно выглядеть
+        // как поле ввода, чем по моей задумке.
 
-        // console.log(taskText.textContent);
+        evt.target.classList.add('task__btn_save');
+        evt.target.classList.remove('task__btn_edit');
+        console.log('editTask');
     }
 }
 
+function saveEditedTask(evt) {
+    if (evt.target.classList.contains('task__btn_save')) {
+        const task = evt.target.closest('.task');
+        const taskText = task.querySelector('.task__name');
+        taskText.setAttribute('readonly', true);
 
-
+        // evt.target.classList.add('task__btn_edit');
+        // evt.target.classList.remove('task__btn_save');
+        console.log('saveEditedTask');
+    }
+}
 
 /* ОБРАБОТЧИКИ СОБЫТИЙ */
 // добавляет задачу по нажатию на кнопку
@@ -100,6 +131,7 @@ form.addEventListener('submit', onFormSubmitHandler);
 list.addEventListener('click', deleteTask);
 list.addEventListener('click', copyTask);
 list.addEventListener('click', editTask);
+list.addEventListener('click', saveEditedTask);
 
 /* ВЫЗОВЫ ФУНКЦИЙ */
 createInitialTasks()

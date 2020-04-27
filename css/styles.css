@@ -85,35 +85,52 @@ body {
     padding: 0;
     margin: 0;
     cursor: pointer;
-}
 
-
-/* Так вокруг значков возникает белая граница, хотя если поискать по этому файлу по border или outline, ей просто
-неоткуда взяться! */
-/*
-.task__btn-image {
     width: 25px;
     height: 25px;
+    /* margin: 25px; Реализовать расширенную область захвата ховера, чтобы кнопка загоралась зеленым раньше.*/
     background-size: cover;
     background-repeat: no-repeat;
     border: none;
     outline: none;
 }
-.task__btn-image_delete {
+
+.task__btn_delete {
     background-image: url(../images/delete-icon.svg);
+    /* transition: background-image .5s ease; */
 }
 
-.task__btn-image_delete:hover {
+.task__btn_copy {
+    background-image: url(../images/duplicate-icon.svg);
+    /* transition: background-image .5s ease; */
+}
+
+.task__btn_edit {
+    background-image: url(../images/edit-icon.svg);
+    /* transition: background-image .5s ease; */
+}
+
+.task__btn_save {
+    background-image: url(../images/Tick-Box-icon.svg);
+    /* transition: background-image .5s ease; */
+}
+
+.task__btn_delete:hover {
     background-image: url(../images/delete-icon-green.svg);
 }
 
-.task__btn-image_copy {
-    background-image: url(../images/duplicate-icon.svg);
+.task__btn_copy:hover {
+    background-image: url(../images/duplicate-icon-green.svg);
 }
 
-.task__btn-image_edit {
-    background-image: url(../images/edit-icon.svg);
-} */
+.task__btn_edit:hover {
+    background-image: url(../images/edit-icon-green.svg);
+}
+
+.task__btn_save:hover {
+    background-image: url(../images/Tick-Box-icon-green.svg);
+    /* transition: background-image .5s ease; */
+}
 
 .task__name {
     margin: 0;
