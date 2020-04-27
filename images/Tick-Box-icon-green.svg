@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <desc>Created with Lunacy</desc>
+  <g id="Tick-Box-icon">
+    <path d="M0 0L50 0L50 50L0 50L0 0Z" id="Background" fill="none" stroke="none" />
+    <path d="M0 7C0 3.10156 3.10156 0 7 0L35 0L33.4063 2L7 2C4.19922 2 2 4.19922 2 7L2 35C2 37.8008 4.19922 40 7 40L35 40C37.8008 40 40 37.8008 40 35L40 13.3125L42 11L42 35C42 38.8984 38.8984 42 35 42L7 42C3.10156 42 0 38.8984 0 35L0 7ZM19.9063 26.5625L39.25 3.75L40.75 5.03125L20.75 28.6563L20.0938 29.4375L19.3125 28.7188L10.4063 20.4375L11.7813 18.9688L19.9063 26.5625Z" transform="translate(4 4)" id="Shape" fill="#7FFF00" fill-rule="evenodd" stroke="none" />
+  </g>
+</svg>
