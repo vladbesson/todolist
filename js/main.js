@@ -2,7 +2,7 @@ const list = document.querySelector('.todo__list');
 
 const createTaskElement = function() {
 	const markup = `
-		<li class="todo__item task">
+	<li class="todo__item task">
       <div class="task__info">
         <p class="task__name"></p>
       </div>
@@ -23,32 +23,9 @@ const createTaskElement = function() {
 const renderSingleTask = function(name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
-
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
 	list.appendChild(newTask);
 };
 
-// пройтись по массиву данных циклом
 tasks.forEach(function(task) {
 	renderSingleTask(task.name);
 });
@@ -56,10 +33,56 @@ tasks.forEach(function(task) {
 const form = document.querySelector('.todo__form');
 const input = document.querySelector('.todo__input');
 
-const onFormSubmitHandler = function (evt) {
-	evt.preventDefault();
-	renderSingleTask(input.value);
-	input.value = '';
-};
+const formReset = (form) => form.reset();
 
-form.addEventListener('submit', onFormSubmitHandler);
+form.addEventListener('submit', (event) => {
+	event.preventDefault();
+	renderSingleTask(input.value);
+	formReset(form);
+});
+
+list.addEventListener('click', (event) => {
+	event.target.parentElement.classList.contains('task__btn_delete') ? event.target.closest('.task').remove() : 0;
+});
+
+list.addEventListener('click', (event) => {
+	if (event.target.parentElement.classList.contains('task__btn_copy')) {
+		const cloneNode = event.target.closest('.task').cloneNode(true);
+		event.target.closest('.task').after(cloneNode);
+	}
+});
+
+function createInput(inputValue) {
+	const input = `<input class="task__name edit-input" type="text" required>`;
+	const element = document.createElement('div');
+	element.insertAdjacentHTML('afterbegin', input);
+	element.firstElementChild.value = inputValue;
+	return element.firstElementChild;
+}
+
+function editTask(event) {
+	if(event.target.parentElement.classList.contains('task__btn_edit')) {
+		const taskName = event.target.closest('.task').querySelector('.task__name');
+		taskName.before(createInput(taskName.textContent));
+		taskName.remove();
+
+		const focusedInput = document.querySelector('.edit-input');
+		focusedInput.focus();
+
+		const saveNewTaskVAlue = (event) => {
+			event.type === 'keypress' ? focusedInput.removeEventListener('blur', saveNewTaskVAlue) : 0;
+
+			if(event.type === 'blur' || event.key === 'Enter') {
+				const newTextValue = event.target.value;
+				newTextValue !== '' ? taskName.textContent = newTextValue : 0;
+				focusedInput.before(taskName);
+				focusedInput.remove();
+			}
+		}
+
+		focusedInput.addEventListener('blur', saveNewTaskVAlue);
+		focusedInput.addEventListener('keypress', saveNewTaskVAlue);
+	}
+}
+
+list.addEventListener('click', editTask);

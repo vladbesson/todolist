@@ -116,3 +116,10 @@ body {
 	padding: 21px;
 	border: none;
 }
+
+.edit-input {
+	background-color: black;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
