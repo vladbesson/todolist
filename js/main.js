@@ -63,6 +63,11 @@ const editTask = function (evt) {
 	taskName.classList.add('task_hide'); //спрятать текст задачи
 	inputEdit.focus(); //фокус на поле ввода
 	inputEdit.selectionStart = inputEdit.value.length;//курсор в конец строки
+	inputEdit.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' || event.key === 'Escape') {
+			inputEdit.blur();
+		};
+	});
 	inputEdit.onblur = function() {
 		taskName.textContent = inputEdit.value;
 		taskName.classList.remove('task_hide');
