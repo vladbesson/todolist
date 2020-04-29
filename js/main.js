@@ -1,10 +1,10 @@
 const list = document.querySelector('.todo__list');
 
-const createTaskElement = function() {
+const createTaskElement = function () {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
-        <p class="task__name"></p>
+		<p class="task__name"></p>
       </div>
       <div class="task__controls">
         <button class="task__btn task__btn_edit" type="button"><img src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
@@ -20,7 +20,7 @@ const createTaskElement = function() {
 	return element.firstElementChild;
 };
 
-const renderSingleTask = function(name) {
+const renderSingleTask = function (name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
 
@@ -34,22 +34,27 @@ const renderSingleTask = function(name) {
 	});
 
 	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
+		if (!newTask.querySelector('.task__name').hasAttribute('contenteditable')) {
+			newTask.querySelector('.task__name').setAttribute('contenteditable', true);
+			newTask.querySelector('.task__name').style.color = 'grey';
+			newTask.querySelector('.task__name').style.background = 'white';
+		} else {
+			newTask.querySelector('.task__name').removeAttribute('contenteditable');
+			newTask.querySelector('.task__name').style.color = '';
+			newTask.querySelector('.task__name').style.background = '';
+		};
 	});
 
 	copyButton.addEventListener('click', function (evt) {
 		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
+		renderSingleTask(task.textContent);
 	});
 
 	list.appendChild(newTask);
 };
 
 // пройтись по массиву данных циклом
-tasks.forEach(function(task) {
+tasks.forEach(function (task) {
 	renderSingleTask(task.name);
 });
 
