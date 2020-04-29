@@ -1,6 +1,6 @@
 const list = document.querySelector('.todo__list');
 
-const createTaskElement = function() {
+const createTaskElement = function () {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
@@ -20,14 +20,14 @@ const createTaskElement = function() {
 	return element.firstElementChild;
 };
 
-const renderSingleTask = function(name) {	
+const renderSingleTask = function (name) {
 	const newTask = createTaskElement();
 	newTask.querySelector('.task__name').textContent = name;
 
 	const deleteButton = newTask.querySelector('.task__btn_delete');
 	const copyButton = newTask.querySelector('.task__btn_copy');
 	const editButton = newTask.querySelector('.task__btn_edit');
-	
+
 	deleteButton.addEventListener('click', function (evt) {
 		const task = evt.currentTarget.closest('.task');
 		list.removeChild(task);
@@ -39,21 +39,22 @@ const renderSingleTask = function(name) {
 			newTask.querySelector('.task__name').style.color = 'grey';
 			newTask.querySelector('.task__name').style.background = 'white';
 		} else {
-		newTask.querySelector('.task__name').removeAttribute('contenteditable');
-		newTask.querySelector('.task__name').style.color = ''; 
-		newTask.querySelector('.task__name').style.background = '';};
-	}); 
-	
+			newTask.querySelector('.task__name').removeAttribute('contenteditable');
+			newTask.querySelector('.task__name').style.color = '';
+			newTask.querySelector('.task__name').style.background = '';
+		};
+	});
+
 	copyButton.addEventListener('click', function (evt) {
 		const task = evt.currentTarget.closest('.task');
 		renderSingleTask(task.textContent);
 	});
 
-	list.appendChild(newTask);	
+	list.appendChild(newTask);
 };
 
 // пройтись по массиву данных циклом
-tasks.forEach(function(task) {
+tasks.forEach(function (task) {
 	renderSingleTask(task.name);
 });
 
