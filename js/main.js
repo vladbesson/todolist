@@ -20,30 +20,49 @@ const createTaskElement = function() {
 	return element.firstElementChild;
 };
 
-const renderSingleTask = function(name) {
-	const newTask = createTaskElement();
-	newTask.querySelector('.task__name').textContent = name;
-
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
+const deleteButtonFunction = function(nameOfTheTask) {
+	const deleteButton = nameOfTheTask.querySelector('.task__btn_delete');
 
 	deleteButton.addEventListener('click', function (evt) {
 		const task = evt.currentTarget.closest('.task');
 		list.removeChild(task);
 	});
+};
+
+const editButtonFunction = function (nameOfTheTask) {
+	const editButton = nameOfTheTask.querySelector('.task__btn_edit');
 
 	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
+		const text = prodcmpt('Введите название новой задачи');
 		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
+		if (text.length === 0) {
+			alert('Нужно ввести новое название задачи!!!');
+		}
+		else
+			task.querySelector('.task__name').textContent = text;
 	});
+};
+
+const copyButtonFunction = function (nameOfTheTask) {
+	const copyButton = nameOfTheTask.querySelector('.task__btn_copy');
 
 	copyButton.addEventListener('click', function (evt) {
 		const task = evt.currentTarget.closest('.task');
 		const clonedTask = task.cloneNode(true);
+		deleteButtonFunction(clonedTask);
+		editButtonFunction(clonedTask);
+		copyButtonFunction(clonedTask);
 		task.after(clonedTask);
 	});
+};
+
+const renderSingleTask = function(name) {
+	const newTask = createTaskElement();
+	newTask.querySelector('.task__name').textContent = name;
+
+	deleteButtonFunction(newTask);
+	editButtonFunction(newTask);
+	copyButtonFunction(newTask);
 
 	list.appendChild(newTask);
 };
