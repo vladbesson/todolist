@@ -1,65 +1,70 @@
 const list = document.querySelector('.todo__list');
+const form = document.querySelector('.todo__form');
+const input = document.querySelector('.todo__input');
 
-const createTaskElement = function() {
+const createTaskElement = (name) => {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
-        <p class="task__name"></p>
+        <p class="task__name">${name}</p>
       </div>
       <div class="task__controls">
-        <button class="task__btn task__btn_edit" type="button"><img src="./images/edit-icon.svg" width="24" height="23" alt="Редактировать"></button>
-        <button class="task__btn task__btn_copy" type="button"><img src="./images/duplicate-icon.svg" width="25" height="25" alt="Копировать"></button>
-        <button class="task__btn task__btn_delete" type="button"><img src="./images/delete-icon.svg" width="18" height="17" alt="Удалить"></button>
+        <button class="task__btn task__btn_edit" type="button" aria-label="Редактировать"></button>
+        <button class="task__btn task__btn_copy" type="button" aria-label="Копировать"></button>
+        <button class="task__btn task__btn_delete" type="button" aria-label="Удалить"></button>
       </div>
     </li>
 	`;
 
-	const element = document.createElement('div');
-	element.insertAdjacentHTML('afterbegin', markup);
-
-	return element.firstElementChild;
+	return markup;
 };
 
-const renderSingleTask = function(name) {
-	const newTask = createTaskElement();
-	newTask.querySelector('.task__name').textContent = name;
-
-	const deleteButton = newTask.querySelector('.task__btn_delete');
-	const copyButton = newTask.querySelector('.task__btn_copy');
-	const editButton = newTask.querySelector('.task__btn_edit');
-
-	deleteButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		list.removeChild(task);
-	});
-
-	editButton.addEventListener('click', function (evt) {
-		const text = prompt('Введите новый текст');
-		const task = evt.currentTarget.closest('.task');
-		task.querySelector('.task__name').textContent = text;
-	});
-
-	copyButton.addEventListener('click', function (evt) {
-		const task = evt.currentTarget.closest('.task');
-		const clonedTask = task.cloneNode(true);
-		task.after(clonedTask);
-	});
-
-	list.appendChild(newTask);
+const renderSingleTask = (name) => {
+	list.insertAdjacentHTML('afterbegin', createTaskElement(name));
 };
 
-// пройтись по массиву данных циклом
-tasks.forEach(function(task) {
-	renderSingleTask(task.name);
-});
-
-const form = document.querySelector('.todo__form');
-const input = document.querySelector('.todo__input');
-
-const onFormSubmitHandler = function (evt) {
-	evt.preventDefault();
+const onFormSubmitHandler = (e) => {
+	e.preventDefault();
 	renderSingleTask(input.value);
-	input.value = '';
+	form.reset();
+};
+
+const editTaskHandler = (e) => {
+	if (e.keyCode === 13) {
+		e.preventDefault();
+
+		if (this.innerHTML === '') return;
+
+		this.removeAttribute('contenteditable');
+		this.classList.remove('task__name_editable');
+	}
+}
+
+const controlSingleTask = (e) => {
+	const target = e.target;
+	const task = target.closest('.task');
+
+	if (target.classList.contains('task__btn_delete')) {
+		task.remove();
+	}
+
+	if (target.classList.contains('task__btn_copy')) {
+		renderSingleTask(task.textContent);
+	}
+
+	if (target.classList.contains('task__btn_edit')) {
+		const taskName = task.querySelector('.task__name');
+		taskName.setAttribute('contenteditable', 'true');
+		taskName.classList.add('task__name_editable');
+
+		taskName.addEventListener('keydown', editTaskHandler);
+	}
 };
 
 form.addEventListener('submit', onFormSubmitHandler);
+
+list.addEventListener('click', controlSingleTask);
+
+(function showInitialTasks() {
+	tasks.forEach(task => renderSingleTask(task.name));
+})();
