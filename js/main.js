@@ -29,6 +29,17 @@ const onFormSubmitHandler = (e) => {
 	form.reset();
 };
 
+const editTaskHandler = (e) => {
+	if (e.keyCode === 13) {
+		e.preventDefault();
+
+		if (this.innerHTML === '') return;
+
+		this.removeAttribute('contenteditable');
+		this.classList.remove('task__name_editable');
+	}
+}
+
 const controlSingleTask = (e) => {
 	const target = e.target;
 	const task = target.closest('.task');
@@ -46,17 +57,7 @@ const controlSingleTask = (e) => {
 		taskName.setAttribute('contenteditable', 'true');
 		taskName.classList.add('task__name_editable');
 
-		taskName.addEventListener('keydown', function (e) {
-			if (e.keyCode === 13) {
-				e.preventDefault();
-
-				if (this.innerHTML === '') return;
-				
-				this.style.border = "2px solid transparent";
-				this.removeAttribute('contenteditable');
-				this.classList.remove('task__name_editable');
-			}
-		});
+		taskName.addEventListener('keydown', editTaskHandler);
 	}
 };
 
