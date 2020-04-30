@@ -53,7 +53,7 @@ function openTaskForEditing(event) {
         taskText.focus();
 
         const editButton = task.querySelector('.task__btn_edit');
-        // console.log(editButton);
+        // console.log('editButton', editButton);
         editButton.classList.remove('task__btn_edit'); // Это вообще нужно? Может, удалить?
         // При этом действии, если открыть таску даблкликом и, не закрывая, еще раз сделать на ней даблклик,
         // в консоль кидается ошибка, т. к. происходит повторный вызов данной функции, а первый уже удалил этот
@@ -185,7 +185,9 @@ function closeTask(event) {
 // закрывает таску по Escape
 function taskEscHandler(event) {
     // console.log('taskEscHandler');
-    if (event.key == 'Escape' && event.target === document.activeElement) {
+    if (event.key == 'Escape'
+        && event.target.classList.contains('task__name')
+        && !event.target.hasAttribute('readonly')) {
         closeTaskWithoutSaving(event);
     }
     // console.log('taskEscHandler end ================================================');
@@ -230,3 +232,4 @@ document.addEventListener('keydown', taskEnterHandler);
 
 /* ВЫЗОВЫ ФУНКЦИЙ */
 createInitialTasks()
+
