@@ -129,14 +129,12 @@ body {
 }
 
 .edit-form_active {
-	display: flex;
+	display: block;
 }
 
 .edit-form__input {
-	padding: 0 10px;
-	margin-right: 10px;
-}
-
-.edit-form__button {
+	width: 450px;
+	background-color: #000000;
+	color: #FFFFFF;
 	padding: 0;
 }

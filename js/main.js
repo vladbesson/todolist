@@ -1,13 +1,12 @@
 const list = document.querySelector('.todo__list');
-
+debugger;
 function createTaskElement() {
 	const markup = `
 		<li class="todo__item task">
       <div class="task__info">
 				<p class="task__name"></p>
 				<form class="edit-form" name="edit">
-					<input type="text" name="task" class="input edit-form__input" required placeholder="Изменить задачу">
-					<button type="submit" class="button edit-form__button">Применить</button>
+					<input type="text" name="task" class="input edit-form__input" required">
 				</form>
       </div>
       <div class="task__controls">
@@ -56,55 +55,43 @@ function editTask(evt) {
 	if (evt.target.classList.contains('task__img_edit')) {
 		const task = evt.target.closest('.task');
 
+		const textValue = task.querySelector('.task__name').textContent;
+
 		task.querySelector('.edit-form').classList.add('edit-form_active');
+		task.querySelector('.edit-form__input').value = textValue;
+		task.querySelector('.edit-form__input').focus();
 		task.querySelector('.task__name').classList.add('task__name_inactive');
 
 		document.addEventListener('keydown', escapeHandler(task));
-		//document.addEventListener('click', clickOutsideForm);
-
-		const editForm = document.querySelector('.edit-form_active');
-
-		editForm.addEventListener('submit', editText);
+		document.addEventListener('click', clickOutsideForm(task));
+		document.addEventListener('submit', enterForm(task));
 	}
 }
 
 function escapeHandler(task) {
 	return function (evt) {
 		if (evt.key === 'Escape') {
-			task.querySelector('.edit-form__input').value = '';
-	
 			task.querySelector('.edit-form').classList.remove('edit-form_active');
 			task.querySelector('.task__name').classList.remove('task__name_inactive');
 		}
 	}
 }
 
-function clickOutsideForm(evt) {
-	if (!evt.target.classList.contains('edit-form__input')) {
-		const task = evt.target.closest('.task');
-
-		task.querySelector('.edit-form__input').value = '';
-
+function enterForm(task) {
+	return function (evt) {
+		evt.preventDefault();
+		task.querySelector('.task__name').textContent = task.querySelector('.edit-form__input').value;
 		task.querySelector('.edit-form').classList.remove('edit-form_active');
 		task.querySelector('.task__name').classList.remove('task__name_inactive');
 	}
 }
 
-function editText(evt) {
-	evt.preventDefault();
-
-	const task = evt.target.closest('.task');
-	const newTask = task.querySelector('.edit-form__input');
-
-	task.querySelector('.task__name').textContent = newTask.value;
-
-	task.querySelector('.edit-form').classList.remove('edit-form_active');
-	task.querySelector('.task__name').classList.remove('task__name_inactive');
-
-	newTask.value = '';
-
-	evt.target.removeEventListener('submit', editText)
+function clickOutsideForm(task) {
+	return function (evt) {
+		
+	}
 }
+
 
 function copyTask(evt) {
 	if (event.target.classList.contains('task__img_copy')) {
