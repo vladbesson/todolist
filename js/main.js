@@ -71,9 +71,3 @@ list.addEventListener('click', editTask);
 form.addEventListener('submit', onFormSubmitHandler);
 
 renderCollection(tasks);
-
-
-
-
-
-
