@@ -1,5 +1,5 @@
 const list = document.querySelector('.todo__list');
-debugger;
+
 function createTaskElement() {
 	const markup = `
 		<li class="todo__item task">
@@ -69,10 +69,15 @@ function editTask(evt) {
 }
 
 function escapeHandler(task) {
-	return function (evt) {
+	return function esc(evt) {
+		let currentObject = task.querySelector('.edit-form__input');
 		if (evt.key === 'Escape') {
-			task.querySelector('.edit-form').classList.remove('edit-form_active');
-			task.querySelector('.task__name').classList.remove('task__name_inactive');
+			if (document.activeElement === currentObject) {
+				task.querySelector('.edit-form').classList.remove('edit-form_active');
+				task.querySelector('.task__name').classList.remove('task__name_inactive');
+			} else {
+				task.querySelector('.task__name').textContent = task.querySelector('.edit-form__input').value;
+			}
 		}
 	}
 }
@@ -87,8 +92,9 @@ function enterForm(task) {
 }
 
 function clickOutsideForm(task) {
-	return function (evt) {
-		
+	return function clc(evt) {
+		task.querySelector('.task__name').textContent = task.querySelector('.edit-form__input').value;
+		document.removeEventListener('click', clc);
 	}
 }
 
