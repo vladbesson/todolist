@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="18px" height="17px" viewBox="0 0 18 17" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <desc>Created with Lunacy</desc>
+  <g id="delete-icon">
+    <path d="M0 0L18 0L18 17L0 17L0 0Z" id="Background" fill="none" stroke="none" />
+    <path d="M0 0L23 0L23 1L0 1L0 0Z" transform="matrix(0.7071068 -0.7071068 0.7071068 0.7071068 0 16.2637)" id="Rectangle" fill="#FF0000" stroke="none" />
+    <path d="M0 0L23 0L23 1L0 1L0 0Z" transform="matrix(0.7071068 0.7071068 -0.7071068 0.7071068 1 0)" id="Rectangle" fill="#FF0000" stroke="none" />
+  </g>
+</svg>

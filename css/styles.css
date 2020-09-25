@@ -1,118 +1,194 @@
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-	font-family: 'Inter', 'Arial', sans-serif;
-	font-size: 18px;
-	line-height: 1.4;
-	color: #FFFFFF;
-	background-color: #000000;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 18px;
+    line-height: 1.4;
+    color: #FFFFFF;
+    background-color: #000000;
 }
 
 /* .page */
+
 .page {
-	padding-top: 90px;
+    padding-top: 90px;
 }
 
 .page__container {
-	max-width: 700px;
-	min-height: 100vh;
-	margin: 0 auto;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+    max-width: 700px;
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .page__heading {
-	font-weight: 900;
-	font-size: 60px;
-	line-height: 73px;
-	text-align: center;
+    font-weight: 900;
+    font-size: 60px;
+    line-height: 73px;
+    text-align: center;
 }
 
 .page__footer {
-	text-align: center;
-	color: #898989;
-	padding-top: 100px;
+    text-align: center;
+    color: #898989;
+    padding-top: 100px;
 }
 
-
 /* .todolist */
+
 .todo__list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .todo__item {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .todo__form {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
 }
 
 .todo__input {
-	flex-grow: 1;
-	margin-right: 10px;
+    flex-grow: 1;
+    margin-right: 10px;
 }
 
 /* .task */
+
 .task {
-	border: 1px solid #6F6F6F;
-	border-radius: 5px;
-	display: flex;
-	justify-content: space-between;
-	align-items: baseline;
-	padding: 43px 45px 44px 45px;
+    border: 1px solid #6F6F6F;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 43px 45px 44px 45px;
 }
 
 .task__controls {
-	width: 126px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    width: 126px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .task__btn {
-	background: none;
-	border: none;
-	padding: 0;
-	margin: 0;
-	cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+
+    width: 25px;
+    height: 25px;
+    /* margin: 25px; Реализовать расширенную область захвата ховера, чтобы кнопка загоралась зеленым раньше.*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
+    outline: none;
+}
+
+.task__btn_delete {
+    background-image: url(../images/delete-icon.svg);
+    /* transition: background-image .5s ease; */
+}
+
+.task__btn_copy {
+    background-image: url(../images/duplicate-icon.svg);
+    /* transition: background-image .5s ease; */
+}
+
+.task__btn_edit {
+    background-image: url(../images/edit-icon.svg);
+    /* transition: background-image .5s ease; */
+}
+
+.task__btn_save {
+    /* background-image: url(../images/Tick-Box-icon.svg); */
+    background-image: url(../images/Tick-Box-icon-yellow.svg);
+    /* transition: background-image .5s ease; */
+}
+
+.task__btn_delete:hover {
+    background-image: url(../images/delete-icon-red.svg);
+}
+
+.task__btn_copy:hover {
+    background-image: url(../images/duplicate-icon-green.svg);
+}
+
+.task__btn_edit:hover {
+    background-image: url(../images/edit-icon-green.svg);
+}
+
+.task__btn_save:hover {
+    background-image: url(../images/Tick-Box-icon-green.svg);
+    /* transition: background-image .5s ease; */
 }
 
 .task__name {
-	margin: 0;
-	font-weight: 900;
-	font-size: 24px;
-	line-height: 29px;
+    margin: 0;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+    border: none;
+    background: none;
+    /* background-image:none; */
+    /* background-color: transparent; */
+    box-shadow: none;
+    outline: none;
 }
 
-
 /* .input */
+
 .input {
-	font-weight: 900;
-	font-size: 24px;
-	line-height: 29px;
-	color: #000000;
-	background: #FFFFFF;
-	border-radius: 5px;
-	padding: 21px;
-	border: none;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    background: #FFFFFF;
+    border-radius: 5px;
+    padding: 21px;
+    border: none;
 }
 
 /* .button */
+
 .button {
-	font-weight: 900;
-	font-size: 24px;
-	line-height: 29px;
-	color: #000000;
-	background: #FFFFFF;
-	border-radius: 5px;
-	padding: 21px;
-	border: none;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    /* background: #FFFFFF; */
+    border-radius: 5px;
+    padding: 21px;
+    border: none;
+}
+
+.element-highlighting {
+    transition: border-color .1s ease;
+    transition: box-shadow .1s ease;
+}
+
+.element-highlighting:hover {
+    border-color: #7fff00;
+    box-shadow: 0px 0px 11px 0px #7FFF00;
+}
+
+.editable-element-highlighting {
+    border-color: #FAE800;
+    /* box-shadow: 0px 0px 11px 0px #FAE800; */
+}
+
+.editable-element-highlighting:hover {
+    border-color: #FAE800;
+    box-shadow: 0px 0px 11px 0px #FAE800;
 }
